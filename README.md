@@ -2,6 +2,7 @@
 ### Jigsaw Agile Community Rules Classification (Kaggle)
 
 [![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)](https://pytorch.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white)](https://www.tensorflow.org/)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow?style=for-the-badge)](https://huggingface.co/)
 [![vLLM](https://img.shields.io/badge/Inference-vLLM-blue?style=for-the-badge)](https://github.com/vllm-project/vllm)
 
@@ -9,6 +10,8 @@
 This project implements a **hybrid NLP architecture** to predict rule violations in Reddit comments. To uphold community norms across diverse subreddits, I engineered an ensemble combining the reasoning capabilities of **Instruction-Tuned LLMs (Qwen)** with the classification stability of **Bi-directional Encoders (DeBERTa-v3)**.
 
 The solution addresses high-class imbalance and noisy unstructured text (emojis, obfuscated URLs) to achieve a **0.884 AUC** on the leaderboard.
+
+🔗 **[View the Complete Solution Notebook & Leaderboard Position](https://www.kaggle.com/code/legdend/jigsaw-llm-classifier-reddit-rule-violation)**
 
 ## 🏗️ Technical Architecture
 
@@ -53,3 +56,15 @@ outputs = llm.generate(
     ),
     lora_request=LoRARequest("default", 1, LORA_PATH)
 )
+```
+
+## 📊 Performance
+
+- **Metric:** ROC-AUC
+- **Score:** 0.884 (Public Leaderboard)
+- **Key Insight:** The ensemble of *Clean Text + URL Semantics* outperformed raw text inputs by significant margins, proving that feature engineering remains crucial even in the LLM era.
+
+## 🛠️ Tools Used
+
+- **Libraries:** `pytorch`, `tensorflow`, `transformers`, `peft`, `trl`, `vllm`, `deepspeed`, `optimum`, `auto-gptq`, `optuna`
+- **Hardware:** Nvidia Tesla T4 x2 (Kaggle Environment)
