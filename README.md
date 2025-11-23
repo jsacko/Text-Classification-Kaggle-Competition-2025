@@ -76,3 +76,11 @@ outputs = llm.generate(
 
 - **Libraries:** `pytorch`, `tensorflow`, `transformers`, `peft`, `trl`, `vllm`, `deepspeed`, `optimum`, `auto-gptq`, `optuna`
 - **Hardware:** Nvidia Tesla T4 x2 (Kaggle Environment)
+
+---
+
+## 👨‍💻 Author
+
+**Julien SACKO** | Machine Learning Engineer 
+
+[LinkedIn](https://www.linkedin.com/in/julien-sacko/)
