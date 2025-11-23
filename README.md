@@ -15,10 +15,18 @@ The solution addresses high-class imbalance and noisy unstructured text (emojis,
 
 ## 🏗️ Technical Architecture
 
-### 1. Models & Fine-Tuning
-* **LLM:** Fine-tuned **Qwen 1.7B/7B** using **QLoRA** (4-bit quantization) via `bitsandbytes` and `PEFT` to fit within consumer GPU memory constraints while maintaining high reasoning capabilities.
-* **Encoder:** Fine-tuned **DeBERTa-v3-Small** for robust feature extraction and low-latency classification.
-* **Orchestration:** Utilized **Hugging Face TRL** (Transformer Reinforcement Learning) library for Supervised Fine-Tuning (SFT).
+### 1. The 3-Model Ensemble, RAG & Fine tuning
+The final prediction is a weighted average of three distinct architectures, optimized for different strengths:
+
+* **Reasoner: Qwen 0.6B (GPTQ-Int8)**
+    * **Role:** Primary classification using Chain-of-Thought (CoT) reasoning.
+    * **Tech:** Fine-tuned with **QLoRA** and served via **vLLM** for high throughput. 
+* **Retriever (RAG): Qwen-Embedding 0.6B**
+    * **Role:** Semantic search and k-NN Classification.
+    * **Method:** Embedded the entire training corpus. For every new comment, the system retrieves the **Top-K (e.g., 10)** most semantically similar past violations and assigns a probability based on their weighted scores. This effectively utilizes the training data as a dynamic knowledge base.
+* **Baseline: DeBERTa-v3**
+    * **Role:** Lightweight baseline for rapid iteration.
+    * **Status:** Used primarily for stability and feature extraction; assigned a lower weight in the final ensemble due to lower relative accuracy compared to the generative approaches.
 
 ### 2. Inference Optimization (MLOps)
 * **vLLM Integration:** Replaced standard inference loops with **vLLM (PageAttention)**, significantly increasing throughput and reducing memory fragmentation during generation.
