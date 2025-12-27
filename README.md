@@ -8,7 +8,7 @@
 [![vLLM](https://img.shields.io/badge/Inference-vLLM-blue?style=for-the-badge)](https://github.com/vllm-project/vllm)
 
 ## 📖 Overview
-This project implements a **hybrid NLP architecture** to predict rule violations in Reddit comments. To uphold community norms across diverse subreddits, I engineered an ensemble combining the reasoning capabilities of **Instruction-Tuned LLMs (Qwen)** with the classification stability of **Bi-directional Encoders (DeBERTa-v3)**.
+This project implements a **hybrid NLP architecture** to predict rule violations in Reddit comments. To uphold community norms across diverse subreddits, I engineered an ensemble combining the reasoning capabilities of **Instruction-Tuned LLMs (Qwen)** with the classification stability of **Bidirectional Encoders (DeBERTa-v3)**.
 
 The solution addresses high-class imbalance and noisy unstructured text (emojis, obfuscated URLs) to achieve a **0.884 AUC** on the leaderboard.
 
@@ -16,14 +16,14 @@ The solution addresses high-class imbalance and noisy unstructured text (emojis,
 
 ## 🏗️ Technical Architecture
 
-### 1. The 3-Model Ensemble, RAG & Fine tuning
+### 1. The 3-Model Ensemble, RAG & Fine-Tuning
 The final prediction is a weighted average of three distinct architectures, optimized for different strengths:
 
 * **Reasoner: Qwen 0.6B (GPTQ-Int8)**
     * **Role:** Primary classification using Chain-of-Thought (CoT) reasoning.
     * **Tech:** Fine-tuned with **QLoRA** and served via **vLLM** for high throughput. 
 * **Retriever (RAG): Qwen-Embedding 0.6B**
-    * **Role:** Semantic search and k-NN Classification.
+    * **Role:** Semantic search and k-NN classification.
     * **Method:** Embedded the entire training corpus. For every new comment, the system retrieves the **Top-K (e.g., 10)** most semantically similar past violations and assigns a probability based on their weighted scores. This effectively utilizes the training data as a dynamic knowledge base.
 * **Baseline: DeBERTa-v3**
     * **Role:** Lightweight baseline for rapid iteration.
@@ -76,7 +76,7 @@ outputs = llm.generate(
 ## 🛠️ Tools Used
 
 - **Libraries:** `pytorch`, `tensorflow`, `transformers`, `peft`, `trl`, `vllm`, `deepspeed`, `optimum`, `auto-gptq`, `optuna`
-- **Hardware:** Nvidia Tesla T4 x2 (Kaggle Environment)
+- **Hardware:** NVIDIA Tesla T4 x2 (Kaggle Environment)
 
 ---
 
